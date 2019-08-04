@@ -15,6 +15,7 @@ class Paper(models.Model):
     summary = models.TextField()
     pub_date = models.DateField()
     url = models.URLField()
+    authors = models.TextField(default='')
 
     def __str__(self):
         return "{} - {}, {}".format(self.title, self.pub_date, self.url)

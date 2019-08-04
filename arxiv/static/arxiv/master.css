@@ -1,0 +1,21 @@
+.papers {
+  max-width: 800px;
+  width: 90%;
+  margin: 0 auto;
+}
+
+.paper {
+  margin: 0 auto;
+  list-style-type: none;
+}
+
+.paper-url {
+  text-decoration: None;
+  color: black;
+}
+
+.paper div{
+  margin-bottom: 5em;
+  border-left: solid 6px black;
+  padding-left: 10px;
+}

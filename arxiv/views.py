@@ -1,5 +1,5 @@
-# from django.shortcuts import render
-from django.http import HttpResponse
+# from django.http import HttpResponse
+from django.shortcuts import render
 
 # Create your views here.
 from .models import Researcher, Paper, Author, Category, Classification
@@ -19,6 +19,8 @@ def index(request):
         date = entry.published.text[:10]
         [year, month, day] = list(map(int, date.split('-')))
         paper.pub_date = datetime.date(year=year, month=month, day=day)
+        authors = [author.text[1:-1] for author in entry.find_all('author')]
+        paper.authors = ', '.join(authors)
         paper.save()
         category_name = entry.category.get('term')
         cats = Category.objects.filter(name=category_name)
@@ -32,7 +34,6 @@ def index(request):
         classification.paper = paper
         classification.category = cat
         classification.save()
-        authors = [author.text[1:-1] for author in entry.find_all('author')]
         for rname in authors:
             rs = Researcher.objects.filter(name=rname)
             if rs:
@@ -46,5 +47,11 @@ def index(request):
             author.researcher = researcher
             author.save()
     latest_papers_list = Paper.objects.order_by('-pub_date')
-    titles = ["<h2>{}</h2><p>{}</p>".format(paper.title, paper.summary) for paper in latest_papers_list]
-    return HttpResponse('\n'.join(titles))
+    # titles = [
+    #     "<h2>{}-{}</h2><p>{}</p>".format(
+    #         paper.title, paper.authors, paper.summary)
+    #     for paper in latest_papers_list
+    #     ]
+    dic = {'latest_papers_list': latest_papers_list}
+    response = render(request, 'arxiv/index.html', dic)
+    return response

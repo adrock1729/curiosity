@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Latest Papers</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'arxiv/master.css' %}">
+  </head>
+  <body>
+    <ul class="papers">
+      {% for paper in latest_papers_list %}
+        <li  class="paper">
+          <div>
+            <a class='paper-url' href="{{ paper.url }}"><h2>{{ paper.title }}</h2></a>
+            <h3>Author: {{ paper.authors }}</h3>
+            <p class="summary">{{ paper.summary }} - published {{ paper.pub_date }}</p>
+          </div>
+        </li>
+      {% endfor %}
+    </ul>
+
+  </body>
+</html>
